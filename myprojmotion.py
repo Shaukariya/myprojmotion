@@ -65,12 +65,12 @@ screen = pg.display.set_mode((screen_width, screen_height))
 my_font = pg.font.SysFont('Comic Sans MS', 30)
 
 # Load images
-bg = pg.image.load("Downloads/g.jpg")
-cannonball = pg.image.load("Downloads/cannonball.gif")
-cannon = pg.image.load("Downloads/cannon.png")
+bg = pg.image.load("myprojmotion/g.jpg")
+cannonball = pg.image.load("myprojmotion/cannonball.gif")
+cannon = pg.image.load("myprojmotion/cannon.png")
 cannon = pg.transform.scale(cannon, (int(screen_width * 0.2), int(screen_height * 0.2)))
 cannonball = pg.transform.scale(cannonball, (int(screen_width * 0.05), int(screen_height * 0.1)))
-mario = pg.image.load("Downloads/Sprite.png")
+mario = pg.image.load("myprojmotion/Sprite.png")
 mario = pg.transform.scale(mario, (80, 150))
 
 
