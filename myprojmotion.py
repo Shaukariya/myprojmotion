@@ -13,12 +13,7 @@ def sin(x):
     return np.sin(x * (np.pi / 180))
 def cos(x):
     return np.cos(x * (np.pi / 180))
-class Player(pg.sprite.Sprite):
-    
-    def __init__(self, center_pos, image):
-        super().__init__() 
-        self.image = image
-        self.rect = self.image.get_rect(center = center_pos)
+
 
 # Define gravity
 g = 9.81
@@ -88,8 +83,7 @@ shots = 5
 running = True
 while running:
     screen.blit(bg, (0, 0))  # Draw background first
-    sprite = Player((np.random.randint(100, screen_width-150), np.random.randint(100, screen_height-80)), mario)
-    screen.blit(sprite.image, (a, b))
+    screen.blit(mario, (a, b))
 
     # Render text
     txtsrf3 = my_font.render('θ = ' + text1, True, (0, 0, 0))
@@ -259,10 +253,9 @@ while running:
     else:
         txtsrf2 = my_font.render('', False, (0, 0, 0))
     screen.blit(txtsrf2, (100, 0))
-
-    pg.display.flip()
+    if lives !=0 or (shots!=0 and lives==0):
+        pg.display.flip()
     clock.tick(60)
 
 pg.quit()
 sys.exit()
-
