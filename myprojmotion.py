@@ -49,12 +49,12 @@ prev_theta = theta
 fired = False
 t = 0  # Time elapsed since firing
 
-# Calculate the theoretical maximum range (is wrong should be theta + 23)
+# Calculate the theoretical maximum range
 max_range = v**2 / g
 
-# Scaling factor based on the screen width
+# Scaling factor for velocity based on the screen width
 scale_x = screen_width / max_range
-scale_y = screen_height / (max_range * sin(base_angle))
+scale_y = screen_height / (max_range * (1/2))
 
 # Set up display
 screen = pg.display.set_mode((screen_width, screen_height))
