@@ -40,10 +40,8 @@ done3 = False
 screen_width = 1200
 screen_height = 675
 
-# Initial angle
+# Initial angle (the angle of the given cannon image was approximately 23.5190522325 degrees, so to get the exact angle, we would need subtract this angle from the input)
 theta = -23.5190522325
-base_angle = 23.5190522325
-prev_theta = theta
 
 # Other variables
 fired = False
@@ -124,10 +122,9 @@ while running:
             if active1:
                 if event.key == pg.K_RETURN:
                     if text1 == '':
-                        theta = prev_theta
+                        theta = -23.5190522325
                     else:
                         try:
-                            prev_theta = theta
                             theta = float(text1) - 23.5190522325
                         except ValueError:
                             text1 = ''
@@ -210,7 +207,7 @@ while running:
         screen.blit(txtsrf10, (400, 300))
         screen.blit(txtsrf11, (400, 350))
         pg.display.flip()
-        pg.time.wait(3000)
+        pg.time.wait(2000)
         running = False
         
     elif shots == 0 and lives !=0:
@@ -219,7 +216,7 @@ while running:
         screen.blit(txtsrf10, (400, 300))
         screen.blit(txtsrf11, (400, 350))
         pg.display.flip()
-        pg.time.wait(3000)
+        pg.time.wait(2000)
         running = False
     else:
         txtsrf10 = my_font.render('', False, (0, 0, 0))
