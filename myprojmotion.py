@@ -1,6 +1,7 @@
 import numpy as np
 import pygame as pg
 import sys
+import time
 
 # Initialize pygame
 pg.init()
@@ -54,7 +55,7 @@ fired = False
 t = 0  # Time elapsed since firing
 
 # Calculate the theoretical maximum range (is wrong should be theta + 23)
-max_range = v**2/ g
+max_range = v**2 / g
 
 # Scaling factor based on the screen width
 scale_x = screen_width / max_range
@@ -73,24 +74,31 @@ cannonball = pg.transform.scale(cannonball, (int(screen_width * 0.05), int(scree
 mario = pg.image.load("myprojmotion/Sprite.png")
 mario = pg.transform.scale(mario, (80, 150))
 
-
 # Rotate image
 def rotate_image(image, angle):
     return pg.transform.rotate(image, angle)
-a,b = np.random.randint(0, screen_width), np.random.randint(0, screen_height)
+
+# Initial target position
+a, b = np.random.randint(100, screen_width-100), np.random.randint(150, screen_height-100)
+hit = False
+lives = 3
+shots = 5
+
 # Running loop
 running = True
 while running:
     screen.blit(bg, (0, 0))  # Draw background first
     sprite = Player((np.random.randint(100, screen_width-150), np.random.randint(100, screen_height-80)), mario)
-    screen.blit(mario, (a,b))
-    hit = False
+    screen.blit(sprite.image, (a, b))
 
     # Render text
     txtsrf3 = my_font.render('θ = ' + text1, True, (0, 0, 0))
     txtsrf4 = my_font.render('g = ' + text2, True, (0, 0, 0))
     txtsrf5 = my_font.render('v = ' + text3 + ' m/s', True, (0, 0, 0))
     txtsrf6 = my_font.render('time: ' + str(round(t, 2)) + ' s', True, (0, 0, 0))
+    txtsrf8 = my_font.render('lives: ' + str(lives), True, (0, 0, 0))
+    txtsrf9 = my_font.render('shots:  ' + str(shots), True, (0, 0, 0))
+
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
@@ -172,8 +180,6 @@ while running:
                     theta -= 1
                 else:
                     txtsrf1 = my_font.render('Angle can\'t be further decreased', False, (0, 0, 0))
-            if hit:
-                txtsrf7 = my_font.render('Hit!', False, (0, 0, 0))  # Render text for hit
 
     if fired:
         
@@ -182,25 +188,61 @@ while running:
         vy = -v * sin(theta + 23.5190522325)  # vy is negative because y increases downward in pygame
         x = 100 + (vx * t * scale_x)
         y = screen_height - 140 + (vy * t + 0.5 * g * t**2) * scale_y
-        if x in range(a-40, a+40) and y in range(b-75, b+75):
+        if a-40 <= x <= a+40 and b-80 <= y <= b+80:
             hit = True 
         if y >= screen_height:  # Check if cannonball hits the ground
             fired = False
+            shots -= 1
+            if hit:
+                lives-=1
             x = 290 + 70 * cos(theta + 23.5190522325)
             y = screen_height - 140 - 40 * sin(theta + 23.5190522325)
-            a,b = np.random.randint(0, screen_width), np.random.randint(0, screen_height)
+            a, b = np.random.randint(100, screen_width-100), np.random.randint(150, screen_height-150)
     else:
         x = 100 + 70 * cos(theta + 23.5190522325)
         y = screen_height - 140 - 40 * sin(theta + 23.5190522325)
         vx = 0
         vy = 0
-    
+        hit = False
+
+    if hit:
         
+        txtsrf7 = my_font.render('Hit!', False, (0, 0, 0))
+    else:
+        txtsrf7 = my_font.render('', False, (0, 0, 0))
+    if lives == 0:
+        txtsrf10 = my_font.render('You Win!', False, (0, 0, 0))
+        txtsrf11 = my_font.render('Game Over!', False, (0, 0, 0))
+        screen.blit(txtsrf10, (400, 300))
+        screen.blit(txtsrf11, (400, 350))
+        pg.display.flip()
+        pg.time.wait(3000)
+        running = False
+        
+    elif shots == 0 and lives !=0:
+        txtsrf10 = my_font.render('You Lose!', False, (0, 0, 0))
+        txtsrf11 = my_font.render('Game Over!', False, (0, 0, 0))
+        screen.blit(txtsrf10, (400, 300))
+        screen.blit(txtsrf11, (400, 350))
+        pg.display.flip()
+        pg.time.wait(3000)
+        running = False
+    else:
+        txtsrf10 = my_font.render('', False, (0, 0, 0))
+        txtsrf11 = my_font.render('', False, (0, 0, 0))
+        
+        
+
     # Blit the text
     screen.blit(txtsrf3, (100, 0))
     screen.blit(txtsrf4, (100, 40))
     screen.blit(txtsrf5, (100, 80))
     screen.blit(txtsrf6, (700, 40))
+    screen.blit(txtsrf7, (50, 500))
+    screen.blit(txtsrf8, (700, 80))
+    screen.blit(txtsrf9, (700, 120))
+    screen.blit(txtsrf10, (400, 300))
+    screen.blit(txtsrf11, (400, 350))
 
     # Blit the input boxes
     pg.draw.rect(screen, 'black', input_box1, -1)
@@ -212,15 +254,11 @@ while running:
     screen.blit(rotated_image, rect.center)
     screen.blit(cannonball, (x, y))
 
-    if active1 == False:
+    if not active1:
         txtsrf2 = my_font.render('θ = ' + str(theta + 23.5190522325), False, (0, 0, 0))
     else:
         txtsrf2 = my_font.render('', False, (0, 0, 0))
     screen.blit(txtsrf2, (100, 0))
-
-    if 'txtsrf7' in locals():
-        screen.blit(txtsrf7, (50, 500))
-    
 
     pg.display.flip()
     clock.tick(60)
