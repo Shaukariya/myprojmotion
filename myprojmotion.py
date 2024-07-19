@@ -162,10 +162,10 @@ while running:
                 fired = True
                 t = 0  # Reset time when firing
 
-            elif event.key == pg.K_RIGHT:
+            elif event.key == pg.K_RIGHT and not fired:
                 text1 = ''
                 theta += 1
-            elif event.key == pg.K_LEFT:
+            elif event.key == pg.K_LEFT and not fired:
                 text1 = ''
                 if theta > -23.5190522325:
                     theta -= 1
