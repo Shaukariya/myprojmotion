@@ -59,7 +59,8 @@ screen = pg.display.set_mode((screen_width, screen_height))
 my_font = pg.font.SysFont('Comic Sans MS', 30)
 
 # Load images
-bg = pg.image.load("g.jpg")
+bg = pg.image.load("g2.jpg")
+mario = pg.transform.scale(bg, (1200, 675))
 cannonball = pg.image.load("cannonball.gif")
 cannon = pg.image.load("cannon.png")
 cannon = pg.transform.scale(cannon, (int(screen_width * 0.2), int(screen_height * 0.2)))
@@ -84,12 +85,12 @@ while running:
     screen.blit(mario, (a, b))
 
     # Render text
-    txtsrf3 = my_font.render('θ = ' + text1, True, (0, 0, 0))
-    txtsrf4 = my_font.render('g = ' + text2, True, (0, 0, 0))
-    txtsrf5 = my_font.render('v = ' + text3 + ' m/s', True, (0, 0, 0))
-    txtsrf6 = my_font.render('time: ' + str(round(t, 2)) + ' s', True, (0, 0, 0))
-    txtsrf8 = my_font.render('lives: ' + str(lives), True, (0, 0, 0))
-    txtsrf9 = my_font.render('shots:  ' + str(shots), True, (0, 0, 0))
+    txtsrf3 = my_font.render('θ = ' + text1, True, (255, 255, 255))
+    txtsrf4 = my_font.render('g = ' + text2, True, (255, 255, 255))
+    txtsrf5 = my_font.render('v = ' + text3 + ' m/s', True, (255, 255, 255))
+    txtsrf6 = my_font.render('time: ' + str(round(t, 2)) + ' s', True, (255, 255, 255))
+    txtsrf8 = my_font.render('lives: ' + str(lives), True, (255, 255, 255))
+    txtsrf9 = my_font.render('shots:  ' + str(shots), True, (255, 255, 255))
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -170,7 +171,7 @@ while running:
                 if theta > -23.5190522325:
                     theta -= 1
                 else:
-                    txtsrf1 = my_font.render('Angle can\'t be further decreased', False, (0, 0, 0))
+                    txtsrf1 = my_font.render('Angle can\'t be further decreased', False, (255, 255, 255))
 
     if fired:
         
@@ -179,7 +180,7 @@ while running:
         vy = -v * sin(theta + 23.5190522325)  # vy is negative because y increases downward in pygame
         x = 100 + (vx * t * scale_x)
         y = screen_height - 140 + (vy * t + 0.5 * g * t**2) * scale_y
-        if a-30 <= x <= a+40 and b-90 <= y <= b+80:
+        if a-40 <= x <= a+40 and b-80 <= y <= b+80:
             hit = True 
         if y >= screen_height:  # Check if cannonball hits the ground
             fired = False
@@ -198,12 +199,12 @@ while running:
 
     if hit:
         
-        txtsrf7 = my_font.render('Hit!', False, (0, 0, 0))
+        txtsrf7 = my_font.render('Hit!', False, (255, 255, 255))
     else:
-        txtsrf7 = my_font.render('', False, (0, 0, 0))
+        txtsrf7 = my_font.render('', False, (255, 255, 255))
     if lives == 0:
-        txtsrf10 = my_font.render('You Win!', False, (0, 0, 0))
-        txtsrf11 = my_font.render('Game Over!', False, (0, 0, 0))
+        txtsrf10 = my_font.render('You Win!', False, (255, 255, 255))
+        txtsrf11 = my_font.render('Game Over!', False, (255, 255, 255))
         screen.blit(txtsrf10, (400, 300))
         screen.blit(txtsrf11, (400, 350))
         pg.display.flip()
@@ -211,16 +212,16 @@ while running:
         running = False
         
     elif shots == 0 and lives !=0:
-        txtsrf10 = my_font.render('You Lose!', False, (0, 0, 0))
-        txtsrf11 = my_font.render('Game Over!', False, (0, 0, 0))
+        txtsrf10 = my_font.render('You Lose!', False, (255, 255, 255))
+        txtsrf11 = my_font.render('Game Over!', False, (255, 255, 255))
         screen.blit(txtsrf10, (400, 300))
         screen.blit(txtsrf11, (400, 350))
         pg.display.flip()
         pg.time.wait(1000)
         running = False
     else:
-        txtsrf10 = my_font.render('', False, (0, 0, 0))
-        txtsrf11 = my_font.render('', False, (0, 0, 0))
+        txtsrf10 = my_font.render('', False, (255, 255, 255))
+        txtsrf11 = my_font.render('', False, (255, 255, 255))
         
         
 
@@ -246,9 +247,9 @@ while running:
     screen.blit(cannonball, (x, y))
 
     if not active1:
-        txtsrf2 = my_font.render('θ = ' + str(theta + 23.5190522325), False, (0, 0, 0))
+        txtsrf2 = my_font.render('θ = ' + str(theta + 23.5190522325), False, (255, 255, 255))
     else:
-        txtsrf2 = my_font.render('', False, (0, 0, 0))
+        txtsrf2 = my_font.render('', False, (255, 255, 255))
     screen.blit(txtsrf2, (100, 0))
     if lives !=0 or (shots!=0 and lives==0):
         pg.display.flip()
