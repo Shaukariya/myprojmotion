@@ -1,7 +1,7 @@
 import numpy as np
 import pygame as pg
 import sys
-import time
+
 
 # Initialize pygame
 pg.init()
