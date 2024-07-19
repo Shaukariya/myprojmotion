@@ -52,7 +52,7 @@ max_range = v**2 / g
 
 # Scaling factor for velocity based on the screen width
 scale_x = screen_width / max_range
-scale_y = screen_height / (max_range * (1/2))
+scale_y = screen_height / (max_range * 0.5)
 
 # Set up display
 screen = pg.display.set_mode((screen_width, screen_height))
@@ -179,14 +179,14 @@ while running:
         vy = -v * sin(theta + 23.5190522325)  # vy is negative because y increases downward in pygame
         x = 100 + (vx * t * scale_x)
         y = screen_height - 140 + (vy * t + 0.5 * g * t**2) * scale_y
-        if a-40 <= x <= a+40 and b-80 <= y <= b+80:
+        if a-30 <= x <= a+40 and b-90 <= y <= b+80:
             hit = True 
         if y >= screen_height:  # Check if cannonball hits the ground
             fired = False
             shots -= 1
             if hit:
                 lives-=1
-            x = 290 + 70 * cos(theta + 23.5190522325)
+            x = 100 + 70 * cos(theta + 23.5190522325)
             y = screen_height - 140 - 40 * sin(theta + 23.5190522325)
             a, b = np.random.randint(100, screen_width-100), np.random.randint(150, screen_height-150)
     else:
@@ -207,7 +207,7 @@ while running:
         screen.blit(txtsrf10, (400, 300))
         screen.blit(txtsrf11, (400, 350))
         pg.display.flip()
-        pg.time.wait(2000)
+        pg.time.wait(1000)
         running = False
         
     elif shots == 0 and lives !=0:
@@ -216,7 +216,7 @@ while running:
         screen.blit(txtsrf10, (400, 300))
         screen.blit(txtsrf11, (400, 350))
         pg.display.flip()
-        pg.time.wait(2000)
+        pg.time.wait(1000)
         running = False
     else:
         txtsrf10 = my_font.render('', False, (0, 0, 0))
