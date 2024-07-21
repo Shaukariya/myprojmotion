@@ -208,7 +208,7 @@ while running:
         screen.blit(txtsrf10, (400, 300))
         screen.blit(txtsrf11, (400, 350))
         pg.display.flip()
-        pg.time.wait(1000)
+        pg.time.wait(500)
         running = False
         
     elif shots == 0 and lives !=0:
@@ -217,7 +217,7 @@ while running:
         screen.blit(txtsrf10, (400, 300))
         screen.blit(txtsrf11, (400, 350))
         pg.display.flip()
-        pg.time.wait(1000)
+        pg.time.wait(500)
         running = False
     else:
         txtsrf10 = my_font.render('', False, (255, 255, 255))
